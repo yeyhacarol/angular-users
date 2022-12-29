@@ -20,6 +20,7 @@ export class User {
     this.birth_date = data.birth_date;
     this.email = data.email;
     this.profession = data.profession;
+    this.tel = data.tel;
     this.cel = data.cel;
     this.cel_has_whatsapp = this.convertStringResponseToBoolean(
       data.cel_has_whatsapp
