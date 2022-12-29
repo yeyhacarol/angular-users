@@ -7,6 +7,9 @@ import {
 } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from 'src/app/interfaces/User';
+import * as toastr from 'toastr';
+import { ToastrService } from 'ngx-toastr';
+import { ResponseProps } from 'src/app/interfaces/ResponseProps';
 
 @Component({
   selector: 'app-users-form',
@@ -14,7 +17,10 @@ import { User } from 'src/app/interfaces/User';
   styleUrls: ['./users-form.component.css'],
 })
 export class UsersFormComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private toastr: ToastrService
+  ) {}
 
   @Output() onSubmit = new EventEmitter<User>();
   @Output() onDelete = new EventEmitter<User>();
@@ -77,12 +83,14 @@ export class UsersFormComponent implements OnInit {
   }
 
   delete(user: User) {
-    this.userService.delete(user).subscribe(() => this.fetchData());
-    this.fetchData();
+    this.userService
+      .delete(user)
+      .subscribe((response) => this.fetchData(response));
   }
 
-  fetchData() {
+  fetchData(responseProps?: ResponseProps) {
     this.userService.list().subscribe((response) => {
+      if (responseProps) this.toastr.success(responseProps.success, 'Sucesso');
       this.users = response.map((resp) => new User(resp));
     });
   }
@@ -95,11 +103,11 @@ export class UsersFormComponent implements OnInit {
     if (this.userForm.value.id)
       this.userService
         .update(this.userForm.value)
-        .subscribe(() => this.fetchData());
+        .subscribe((response) => this.fetchData(response));
     else
       this.userService
         .create(this.userForm.value)
-        .subscribe(() => this.fetchData());
+        .subscribe((response) => this.fetchData(response));
 
     formDirective.resetForm();
     this.userForm.reset();

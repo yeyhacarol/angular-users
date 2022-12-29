@@ -16,6 +16,8 @@ import {
   NgxMaskPipe,
   IConfig,
 } from 'ngx-mask';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -38,6 +40,8 @@ const maskConfigFunction: () => Partial<IConfig> = () => {
     ReactiveFormsModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [provideEnvironmentNgxMask(maskConfigFunction)],
   bootstrap: [AppComponent],
