@@ -1,0 +1,24 @@
+.button {
+  width: 11.25em;
+  height: 2.813em;
+
+  border: none;
+  border-radius: 0.313em;
+
+  background-color: var(--blue);
+
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: 1.125em;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+@media screen and (max-width: 720px) {
+  .button {
+    width: 8.75em;
+
+    font-size: 1em;
+  }
+}

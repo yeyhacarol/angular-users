@@ -1,0 +1,160 @@
+<form
+  (ngSubmit)="submit(formDir)"
+  [formGroup]="userForm"
+  #formDir="ngForm"
+  class="users-form-container"
+>
+  <div class="form-group">
+    <div class="input-container">
+      <label for="full_name">Nome completo</label>
+      <input
+        id="full_name"
+        type="text"
+        placeholder="Ex.: Letícia Pacheco dos Santos"
+        formControlName="full_name"
+        required
+      />
+      <div
+        *ngIf="full_name.invalid && formDir.submitted"
+        class="validation-error"
+      >
+        <p *ngIf="full_name.errors?.['required']">Campo obrigatório.</p>
+      </div>
+    </div>
+
+    <div class="input-container">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Ex.: leticia@gmail.com"
+        formControlName="email"
+        required
+      />
+      <div *ngIf="email.invalid && formDir.submitted" class="validation-error">
+        <p>Campo obrigatório.</p>
+      </div>
+    </div>
+
+    <div class="input-container">
+      <label for="tel">Telefone para contato</label>
+      <input
+        id="tel"
+        type="text"
+        placeholder="Ex.: (11) 4033-2019"
+        [mask]="'(00) 0000-0000'"
+        formControlName="tel"
+      />
+      <div *ngIf="tel.invalid && formDir.submitted" class="validation-error">
+        <p>Número inválido.</p>
+      </div>
+    </div>
+
+    <div class="input-container">
+      <label for="birth_date">Data de nascimento</label>
+      <input
+        id="birth_date"
+        type="date"
+        formControlName="birth_date"
+        required
+      />
+      <div
+        *ngIf="birth_date.invalid && formDir.submitted"
+        class="validation-error"
+      >
+        <p *ngIf="birth_date.errors?.['required']">Campo obrigatório.</p>
+      </div>
+    </div>
+
+    <div class="input-container">
+      <label for="profession">Profissão</label>
+      <input
+        id="profession"
+        type="text"
+        placeholder="Ex.: Desevolvedora web"
+        formControlName="profession"
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="cel">Celular para contato</label>
+      <ng-container>
+        <input
+          id="cel"
+          type="text"
+          class="form-control"
+          formControlName="cel"
+          name="cel"
+          placeholder="Ex.: (11) 98493-2039"
+          formControlName="cel"
+          [mask]="'(00) 00000-0000'"
+          required
+        />
+      </ng-container>
+
+      <div *ngIf="cel.invalid && formDir.submitted" class="validation-error">
+        <p *ngIf="cel.errors?.['required']">Campo obrigatório.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkbox-container">
+    <div class="left">
+      <div class="checkbox-item">
+        <input
+          type="checkbox"
+          id="cel_has_whatsapp"
+          formControlName="cel_has_whatsapp"
+        />
+        <label for="cel_has_whatsapp">Número de celular possui WhatsApp</label>
+      </div>
+
+      <div class="checkbox-item">
+        <input type="checkbox" id="notify_sms" formControlName="notify_sms" />
+        <label for="notify_sms">Enviar notificações por SMS</label>
+      </div>
+    </div>
+    <div class="right">
+      <div class="checkbox-item">
+        <input
+          type="checkbox"
+          id="notify_email"
+          formControlName="notify_email"
+        />
+        <label for="notify_email">Enviar notificações por E-mail</label>
+      </div>
+    </div>
+  </div>
+
+  <app-submit text="Cadastrar contato"></app-submit>
+</form>
+
+<div class="table-container">
+  <table>
+    <tr class="thead">
+      <th>Nome</th>
+      <th>Data de nascimento</th>
+      <th>E-mail</th>
+      <th>Celular para contato</th>
+      <th>Ações</th>
+    </tr>
+    <tr class="table-row" *ngFor="let user of users">
+      <td>{{ user.full_name }}</td>
+      <td>{{ user.birth_date | date : "dd/MM/yyyy" }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.cel | mask : "(00) 00000-0000" }}</td>
+      <td>
+        <img
+          (click)="edit(user)"
+          src="../../../assets/editar.png"
+          alt="editar_contato"
+        />
+        <img
+          (click)="delete(user)"
+          src="../../../assets/excluir.png"
+          alt="excluir_contato"
+        />
+      </td>
+    </tr>
+  </table>
+</div>
